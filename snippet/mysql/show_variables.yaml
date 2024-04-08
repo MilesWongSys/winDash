@@ -1,0 +1,6 @@
+cmd: show variables like '%__name__%';
+short_cut: '`svl'
+variable:
+  - name: __name__
+tag:
+  - MySQL

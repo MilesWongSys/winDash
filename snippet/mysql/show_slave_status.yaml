@@ -1,0 +1,4 @@
+cmd: show slave status\G;
+short_cut: '`sss'
+tag:
+  - MySQL
