@@ -61,7 +61,10 @@ func monitor() error {
 				log.Fatalf("输入缓存异常，%v", err)
 			}
 			if sp, isExist := snippet.GetSnippet("`" + inputBuffer.String()); detectKeyword && isExist {
-				log.Println(sp)
+				err = gui(sp)
+				if err != nil {
+					log.Fatalf("图形界面运行异常， %v", err)
+				}
 			}
 			continue
 		}
@@ -77,4 +80,9 @@ func isLegalCode(code types.VKCode) bool {
 
 func getStr(code types.VKCode) string {
 	return strings.ToLower(strings.TrimPrefix(code.String(), "VK_"))
+}
+
+func gui(sp *snippet.Snippet) error {
+
+	return nil
 }
