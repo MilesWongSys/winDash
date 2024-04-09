@@ -1,6 +1,11 @@
 package main
 
 import (
+	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/app"
+	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/widget"
+	"github.com/google/uuid"
 	"github.com/moutend/go-hook/pkg/keyboard"
 	"github.com/moutend/go-hook/pkg/types"
 	"log"
@@ -61,6 +66,7 @@ func monitor() error {
 				log.Fatalf("输入缓存异常，%v", err)
 			}
 			if sp, isExist := snippet.GetSnippet("`" + inputBuffer.String()); detectKeyword && isExist {
+				log.Println(sp)
 				err = gui(sp)
 				if err != nil {
 					log.Fatalf("图形界面运行异常， %v", err)
@@ -83,6 +89,26 @@ func getStr(code types.VKCode) string {
 }
 
 func gui(sp *snippet.Snippet) error {
+	uid := uuid.NewString()
+	a := app.NewWithID(uid)
+	window := a.NewWindow(uid)
+	window.Show()
+	var content *fyne.Container
+	if len(sp.VariableList) == 0 {
+		content = container.NewVBox(
+			widget.NewLabel(sp.CMD),
+			widget.NewButton("confirm", func() {
+				window.Clipboard().SetContent(sp.CMD)
+				window.Hide()
+			}),
+			widget.NewButton("cancel", func() {
+				window.Hide()
+			}),
+		)
+	} else {
 
+	}
+	window.SetContent(content)
+	window.ShowAndRun()
 	return nil
 }
